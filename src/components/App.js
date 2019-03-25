@@ -5,10 +5,18 @@ import PlacesList from "./PlacesList.js";
 import InfoWindow from "./InfoWindow.js";
 
 class App extends Component {
+  constructor() {
+    super();
+    this.state = {};
+  }
+
   render() {
     return (
-      <div className="Container">
-        <h1>São Paulo Brasil</h1>
+      <div id="container">
+        <div id="header">São Paulo Brasil</div>
+        <div id="menu">still empty</div>
+        <div id="map">Map goes here</div>
+        <div className="footer">Powered by FourSquare</div>
       </div>
     );
   }
