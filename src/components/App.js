@@ -15,9 +15,11 @@ class App extends Component {
         lat: -23.560245,
         lng: -46.657948
       },
+      listOpen: true,
       mapReady: false,
       mapError: false,
-      screenWidth: window.innerWidth
+      screenWidth: window.innerWidth,
+      showFiltered: true
     };
   }
 
@@ -41,14 +43,40 @@ class App extends Component {
     }
   }
 
+  checkListOpen = () => {
+    const { listOpen, screenWidth } = this.state;
+    if (listOpen && screenWidth < 800) {
+      this.setState({ listOpen: false });
+    }
+  };
+
   render() {
     console.log(this.state);
     return (
-      <div id="container">
-        <div id="header">São Paulo Brasil</div>
-        <div id="menu">still empty</div>
+      <div id="container" role="main">
+        <div id="header">
+          <h1 tabIndex="0">São Paulo Brasil</h1>
+        </div>
+        <div id="menu" tabIndex="0">
+          {this.state.mapReady ? (
+            <PlacesList
+              infoWindow={this.state.infoWindow}
+              infoWindowOpen={this.state.infoWindowOpen}
+              myMap={this.state.myMap}
+              centerMap={this.state.centerMap}
+              showFiltered={this.state.showFiltered}
+            />
+          ) : (
+            <p>A problem ocurred, please try again...</p>
+          )}
+        </div>
+
         <div id="map">
-          <p>Map is Loading</p>
+          {this.state.mapError ? (
+            <p>Google Maps is not loading, try to refresh the page</p>
+          ) : (
+            <p>Map is loading</p>
+          )}
         </div>
         <div className="footer">Powered by FourSquare</div>
       </div>
