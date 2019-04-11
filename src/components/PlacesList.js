@@ -9,8 +9,7 @@ class PlacesList extends Component {
     this.state = {
       venues: [],
       filteredList: [],
-      query: "",
-      categories: []
+      query: ""
     };
   }
 
@@ -79,39 +78,6 @@ class PlacesList extends Component {
 
     this.setState({
       filteredList: filteredMarkers
-    });
-  };
-
-  filterByCategory = filterObj => {
-    const { venues, categories } = this.state;
-
-    this.props.infoWindow.close();
-
-    const filteredCategories = venues.filter(venue => {
-      const venueCategory = venue.categories;
-      let categoryName = venueCategory.map(category => category.name)[0];
-
-      categoryName =
-        categoryName === "Outdoor Sculpture" ||
-        categoryName === "Monument / Landmark" ||
-        categoryName === "Scenic Lookout" ||
-        categoryName === "Garden" ||
-        categoryName === "City Hall" ||
-        categoryName === "Historic Site" ||
-        categoryName === "Bridge" ||
-        categoryName === "Cultural Center"
-          ? "Others"
-          : categoryName;
-
-      const matches = categoryName
-        .toLowerCase()
-        .includes(filterObj.toLowerCase());
-      venue.marker.setVisible(matches);
-      return matches;
-    });
-
-    this.setState({
-      filteredList: filteredCategories
     });
   };
 
