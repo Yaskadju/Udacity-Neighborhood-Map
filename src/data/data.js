@@ -12,10 +12,8 @@ const categories = [
 
 const placesCategories = [
   { key: "Museum", value: "4bf58dd8d48988d181941735" },
-  // {key: "Public Art", value: "507c8c4091d498d9fc8c67a9"},
   { key: "Historic Site", value: "4deefb944765f83613cdba6e" },
   { key: "Scenic Outlook", value: "4bf58dd8d48988d165941735" },
-  // {key: "Art Museum", value: "4bf58dd8d48988d18f941735"},
   { key: "Church", value: "4bf58dd8d48988d132941735" },
   { key: "Plaza", value: "4bf58dd8d48988d164941735" },
   { key: "History Museum", value: "4bf58dd8d48988d190941735" }
@@ -33,16 +31,11 @@ export const categoryName = categories.map(key => {
   return key.key;
 });
 
-const categoryId = categories.map(value => {
-  return value.value;
-});
-
 const versionDate = 20180606;
+const fourSquareUrl = "https://api.foursquare.com/v2/venues/";
 
 export const getFSvenues = mapCenter => {
-  const urlRequest = `https://api.foursquare.com/v2/venues/search?ll=${
-    mapCenter.lat
-  },${
+  const urlRequest = `${fourSquareUrl}search?ll=${mapCenter.lat},${
     mapCenter.lng
   }&client_id=${clientId}&client_secret=${clientSecret}&v=${versionDate}&categoryId=${placesIds}&radius=1600&limit=50`;
 
@@ -62,18 +55,20 @@ export const getFSvenues = mapCenter => {
     });
 };
 
-export const getFSdetails = fsId => {
-  const detailsUrl = `https://api.foursquare.com/v2/venues/${fsId}?client_id=${clientId}&client_secret=${clientSecret}&v=${versionDate}`;
+export const getFSdetails = fsid => {
+  const fourSqId = fsid;
+  const detailsUrl = `${fourSquareUrl}${fourSqId}?client_id=${clientId}&client_secret=${clientSecret}&v=${versionDate}`;
 
   return fetch(detailsUrl)
     .then(response => {
       if (!response.ok) {
-        console.log("An error ocurred when trying to retrieve the venues");
+        console.log("Error when retrieving venues");
       } else {
         return response.json();
       }
     })
     .then(data => {
+      console.log(data.response);
       return data.response;
     });
 };

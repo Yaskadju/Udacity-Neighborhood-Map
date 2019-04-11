@@ -1,30 +1,22 @@
-#container {
-
-  display: grid;
-  grid-template-columns: 100vw;
-  grid-template-rows: 25% 30px auto;
-}
-
 body {
 
   background-color: #ffeead;
   margin: 0;
   padding: 0;
-  text-align: center;
-  height: 100%;
+
+}
+
+#container {
+  display: grid;
+
 }
 
 h1 {
   grid-row-start: 1;
   grid-column: 1 / span 2;
-  font-weight: 700;
-}
-
-h2 {
-  grid-row-start: 2;
-  grid-column: 1 / span 2;
-  font-size: 10px;
-  margin: 0;
+  font-weight: 550;
+  color: #406647;
+  text-align: center;
 }
 
 #header {
@@ -42,11 +34,7 @@ h2 {
   grid-row-start: 3;
   grid-column-start: 1;
   margin-top: 0;
-
-}
-
-.footer {
-  grid-column: 1/-1
+  border-top: 2px solid #406647;
 }
 
 #container>div:nth-child(1n) {
@@ -66,19 +54,22 @@ h2 {
 }
 
 #listSection {
+
   overflow: scroll;
   margin-top: 0;
   width: 30vw;
   height: 100vh;
   grid-row-start: 3;
   grid-column-start: 1;
-  border: 2px solid;
-  z-index: 4;
+  border: 2px solid #406647;
+  z-index: 5;
+  background-color: #fde7b4
 }
 
 .placesList {
   list-style-type: none;
   text-align: left;
+  color: #406647;
 }
 
 .placesList li {
@@ -92,7 +83,7 @@ h2 {
   position: absolute;
   left: 4px;
   top: 50px;
-
+  color: #406647;
 }
 
 .list-hide {
@@ -103,28 +94,27 @@ h2 {
   display: block;
 }
 
-.categories {
-  margin: 10px 0 0 0;
-  padding: 0;
-}
-
-.categories li {
-  list-style-type: none;
-  display: inline-block;
-  border-radius: 3px;
-  padding: 5px;
-  margin: 5px
-}
-
 #filter-places {
   width: 90%;
-  margin-top: 5px;
+  margin-top: 15px;
+  text-align: center;
+  margin-left: 10px
 }
 
 .infoWindow {
   overflow: auto;
   text-align: center;
-  border-radius: 10px;
+  border-radius: 5px;
+  margin: 0 auto 5px;
+}
+
+.place-name {
+  height: 30px;
+  font-size: 1.4em;
+  text-align: center;
+  z-index: 10;
+  top: 0;
+  border-radius: 5px;
 }
 
 .place-name {
@@ -132,4 +122,32 @@ h2 {
   font-size: 1.4em;
   text-align: center;
   top: 0;
+}
+
+.infowindow {
+  overflow: auto;
+  text-align: center;
+  margin: 0 auto 10px;
+  border-radius: 5px;
+}
+
+.places-details {
+  color: #006622;
+}
+
+@media only screen and (max-width: 700px) {
+  h1 {
+    font-size: 2em;
+  }
+
+  #listSection {
+    height: 50vh;
+    width: 50vw;
+    z-index: 5;
+  }
+
+  .placesList li {
+    margin-right: 15px;
+    margin-left: -5px;
+  }
 }

@@ -27,7 +27,7 @@ export const gatherContent = (marker, data) => {
   return marker;
 };
 
-export const createInfoWindow = marker => {
+export const createInfowindow = marker => {
   marker.content = `<div class="infowindow">
                         <img class="place-img" src=${marker.photo}>
                         <div class='places-details'>

@@ -1,10 +1,20 @@
 import React, { Component } from "react";
-//import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 import { getFSvenues, getFSdetails } from "../data/data.js";
-import { gatherContent, createInfoWindow } from "../data/placeDetails.js";
-import categories from "../data/categories.js";
+import { gatherContent, createInfowindow } from "../data/placeDetails.js";
 
 class PlacesList extends Component {
+  static propTypes = {
+    listOpen: PropTypes.bool.isRequired,
+    infoWindow: PropTypes.object.isRequired,
+    // infowindowOpen: PropTypes.bool.isRequired,
+    myMap: PropTypes.object.isRequired,
+    centerMap: PropTypes.object.isRequired,
+    toggleList: PropTypes.func.isRequired,
+    showFiltered: PropTypes.bool.isRequired,
+    checkListOpen: PropTypes.func.isRequired
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -29,8 +39,9 @@ class PlacesList extends Component {
 
   createMarkers(xvenues) {
     const { myMap, infoWindow, checkListOpen } = this.props;
+    const { venues } = this.state;
 
-    this.state.venues.map(venue => {
+    venues.map(venue => {
       venue.marker = new window.google.maps.Marker({
         map: myMap,
         position: venue.location,
@@ -40,13 +51,13 @@ class PlacesList extends Component {
         open: false
       });
 
-      venue.marker.addListener("click", () => {
+      venue.marker.addListener("click", function() {
         const marker = this;
 
         getFSdetails(marker.id)
           .then(data => {
             gatherContent(marker, data);
-            createInfoWindow(marker);
+            createInfowindow(marker);
           })
           .then(() => {
             infoWindow.setContent(marker.content);
@@ -126,19 +137,6 @@ class PlacesList extends Component {
 
     return (
       <div>
-        <ul className="categories">
-          {categories.map(name => (
-            <li
-              key={name}
-              role="button"
-              tabIndex={listOpen ? "0" : "-1"}
-              onClick={() => this.filterByCategory(name)}
-              onKeyPress={() => this.filterByCategory(name)}
-            >
-              {name}
-            </li>
-          ))}
-        </ul>
         <input
           id="filter-places"
           role="search"
