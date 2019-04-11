@@ -3,7 +3,7 @@ import PlacesList from "./PlacesList.js";
 
 class InfoWindows extends Component {
   render() {
-    return <div />;
+    return <div>infowindow</div>;
   }
 }
 

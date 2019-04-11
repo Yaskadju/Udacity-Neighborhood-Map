@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { getFSvenues, getFSdetails } from "../data/data.js";
-import { gatherContent, createInfoWindow } from "../data/placesDetails.js";
+import { gatherContent, createInfoWindow } from "../data/placeDetails.js";
 import categories from "../data/categories.js";
 
 class PlacesList extends Component {
@@ -32,27 +32,21 @@ class PlacesList extends Component {
 
     this.state.venues.map(venue => {
       venue.marker = new window.google.maps.Marker({
-        map: this.props.myMap,
+        map: myMap,
         position: venue.location,
         title: venue.name,
-        animation: window.google.maps.Animation.Drop,
+        animation: window.google.maps.Animation.DROP,
         id: venue.id,
         open: false
       });
 
       venue.marker.addListener("click", () => {
         const marker = this;
-        // when clicked, marker will bounce
-        venue.marker.setAnimation(window.google.maps.Animation.BOUNCE);
-        setTimeout(function() {
-          marker.setAnimation(null);
-        }, 2000);
 
-        // gets details when a marker is clicked
         getFSdetails(marker.id)
           .then(data => {
             gatherContent(marker, data);
-            createInfowindow(marker);
+            createInfoWindow(marker);
           })
           .then(() => {
             infoWindow.setContent(marker.content);

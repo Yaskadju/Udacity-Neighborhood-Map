@@ -1,47 +1,59 @@
 import React, { Component } from "react";
-import { mapStyle } from "../data/mapStyle.js";
 import scriptLoader from "react-async-script-loader";
 import PlacesList from "./PlacesList.js";
-import InfoWindow from "./InfoWindow.js";
+import menu from "../images/menu.png";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       infoWindow: {},
+      listOpen: true,
+      showFiltered: true,
       infoWindowOpen: false,
       myMap: {},
       centerMap: {
         lat: -23.560245,
         lng: -46.657948
       },
-      listOpen: true,
       mapReady: false,
       mapError: false,
-      screenWidth: window.innerWidth,
-      showFiltered: true
+      screenWidth: window.innerWidth
     };
+
+    this.toggleList = this.toggleList.bind(this);
   }
 
   componentDidUpdate({ isScriptLoadSucceed }) {
+    const { mapError } = this.state;
     if (isScriptLoadSucceed && !this.state.mapReady) {
       let map = new window.google.maps.Map(document.getElementById("map"), {
         center: this.state.centerMap,
-        zoom: 14,
-        styles: mapStyle
+        zoom: 12,
+        mapTypeControl: false
       });
 
-      const infoWindow = new window.google.maps.InfoWindow({ maxWidth: 300 });
+      const infowindow = new window.google.maps.InfoWindow({ maxWidth: 320 });
 
       this.setState({
         myMap: map,
         mapReady: true,
-        infoWindow: infoWindow
+        infoWindow: infowindow
       });
     } else if (!this.state.mapReady) {
       this.setState({ mapError: true });
     }
   }
+
+  toggleList = () => {
+    const { listOpen } = this.state;
+    if (this.state.screenWidth < 800) {
+      if (!listOpen) {
+        this.state.infoWindow.close();
+      }
+      this.setState({ listOpen: !listOpen });
+    }
+  };
 
   checkListOpen = () => {
     const { listOpen, screenWidth } = this.state;
@@ -51,16 +63,36 @@ class App extends Component {
   };
 
   render() {
-    console.log(this.state);
     return (
       <div id="container" role="main">
-        <div id="header">
-          <h1 tabIndex="0">São Paulo Brasil</h1>
-        </div>
-        <div id="menu" tabIndex="0">
+        <h1 tabIndex="0">São Paulo - Brasil</h1>
+
+        {this.state.screenWidth < 800 ? (
+          <nav>
+            <img
+              className="menu-icon"
+              src={menu}
+              widht="25"
+              height="25"
+              tabIndex="0"
+              onClick={this.toggleList}
+            />
+          </nav>
+        ) : (
+          " "
+        )}
+
+        <div
+          id="listSection"
+          className={this.state.listOpen ? "list-open" : "list-hide"}
+        >
           {this.state.mapReady ? (
             <PlacesList
               infoWindow={this.state.infoWindow}
+              listOpen={this.state.listOpen}
+              checkListOpen={this.checkListOpen}
+              filterCategories={this.filterCategories}
+              filterByName={this.filterByName}
               infoWindowOpen={this.state.infoWindowOpen}
               myMap={this.state.myMap}
               centerMap={this.state.centerMap}
