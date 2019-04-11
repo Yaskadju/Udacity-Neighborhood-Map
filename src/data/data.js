@@ -1,22 +1,40 @@
 import { clientId, clientSecret } from "../data/clientInfo.js";
 
 const categories = [
-  { key: "Food", value: "4d4b7105d754a06374d81259" },
-  { key: "Museum", value: "4bf58dd8d48988d181941735" },
-  { key: "PublicArt", value: "507c8c4091d498d9fc8c67a9" },
-  { key: "Bar", value: "4bf58dd8d48988d116941735" },
-  { key: "Hotel", value: "4bf58dd8d48988d1fa931735" },
-  { key: "Office", value: "4bf58dd8d48988d124941735" },
-  { key: "Library", value: "4bf58dd8d48988d12f941735" },
-  { key: "Cultural Center", value: "52e81612bcbc57f1066b7a32" }
+  { key: "food", value: "4d4b7105d754a06374d81259" },
+  { key: "museum", value: "4bf58dd8d48988d181941735" },
+  { key: "publicArt", value: "507c8c4091d498d9fc8c67a9" },
+  { key: "bar", value: "4bf58dd8d48988d116941735" },
+  { key: "plaza", value: "4bf58dd8d48988d164941735" },
+  { key: "church", value: "4bf58dd8d48988d132941735" },
+  { key: "hotel", value: "4bf58dd8d48988d1fa931735" }
 ];
 
-export const categoryName = categories.map(category => {
-  return category.key;
+const placesCategories = [
+  { key: "Museum", value: "4bf58dd8d48988d181941735" },
+  // {key: "Public Art", value: "507c8c4091d498d9fc8c67a9"},
+  { key: "Historic Site", value: "4deefb944765f83613cdba6e" },
+  { key: "Scenic Outlook", value: "4bf58dd8d48988d165941735" },
+  // {key: "Art Museum", value: "4bf58dd8d48988d18f941735"},
+  { key: "Church", value: "4bf58dd8d48988d132941735" },
+  { key: "Plaza", value: "4bf58dd8d48988d164941735" },
+  { key: "History Museum", value: "4bf58dd8d48988d190941735" }
+];
+
+export const placesNames = placesCategories.map(key => {
+  return key.key;
 });
 
-export const categoryId = categories.map(category => {
-  return category.value;
+const placesIds = placesCategories.map(value => {
+  return value.value;
+});
+
+export const categoryName = categories.map(key => {
+  return key.key;
+});
+
+const categoryId = categories.map(value => {
+  return value.value;
 });
 
 const versionDate = 20180606;
@@ -26,11 +44,15 @@ export const getFSvenues = mapCenter => {
     mapCenter.lat
   },${
     mapCenter.lng
-  }&client_id=${clientId}&client_secret=${clientSecret}&v=${versionDate}&categoryId=${categoryId}&radius=1600&limit=50`;
+  }&client_id=${clientId}&client_secret=${clientSecret}&v=${versionDate}&categoryId=${placesIds}&radius=1600&limit=50`;
 
   return fetch(urlRequest)
     .then(response => {
-      return response.json();
+      if (!response.ok) {
+        console.log("An error ocurred when trying to retrieve the venues");
+      } else {
+        return response.json();
+      }
     })
     .then(data => {
       const venues = data.response.venues.filter(venue => {
@@ -45,7 +67,11 @@ export const getFSdetails = fsId => {
 
   return fetch(detailsUrl)
     .then(response => {
-      return response.json();
+      if (!response.ok) {
+        console.log("An error ocurred when trying to retrieve the venues");
+      } else {
+        return response.json();
+      }
     })
     .then(data => {
       return data.response;

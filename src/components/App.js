@@ -82,13 +82,16 @@ class App extends Component {
           " "
         )}
 
-        <div
+        <section
           id="listSection"
           className={this.state.listOpen ? "list-open" : "list-hide"}
+          tabIndex={this.state.listOpen ? "0" : "-1"}
         >
           {this.state.mapReady ? (
             <PlacesList
               infoWindow={this.state.infoWindow}
+              infowindowOpen={this.state.infowindowOpen}
+              toggleList={this.toggleList}
               listOpen={this.state.listOpen}
               checkListOpen={this.checkListOpen}
               filterCategories={this.filterCategories}
@@ -99,18 +102,21 @@ class App extends Component {
               showFiltered={this.state.showFiltered}
             />
           ) : (
-            <p>A problem ocurred, please try again...</p>
+            <p>A problem ocurred...</p>
           )}
-        </div>
+        </section>
 
-        <div id="map">
+        <section id="map">
           {this.state.mapError ? (
-            <p>Google Maps is not loading, try to refresh the page</p>
+            <div id="maperror">
+              <p>Google Maps is not loading...</p>
+            </div>
           ) : (
-            <p>Map is loading</p>
+            <div className="mapload">
+              <p>Map is loading, please wait...</p>
+            </div>
           )}
-        </div>
-        <div className="footer">Powered by FourSquare</div>
+        </section>
       </div>
     );
   }

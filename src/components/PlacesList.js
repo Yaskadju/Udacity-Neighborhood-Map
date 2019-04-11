@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
+//import PropTypes from "prop-types";
 import { getFSvenues, getFSdetails } from "../data/data.js";
 import { gatherContent, createInfoWindow } from "../data/placeDetails.js";
 import categories from "../data/categories.js";
@@ -62,9 +62,8 @@ class PlacesList extends Component {
 
   filterByName = event => {
     const { venues } = this.state;
-    const { infoWindow } = this.props;
 
-    infoWindow.close();
+    this.props.infoWindow.close();
 
     const query = event.target.value.toLowerCase();
 
@@ -85,22 +84,21 @@ class PlacesList extends Component {
 
   filterByCategory = filterObj => {
     const { venues, categories } = this.state;
-    const { infoWindow } = this.props;
 
-    infoWindow.close();
+    this.props.infoWindow.close();
 
     const filteredCategories = venues.filter(venue => {
       const venueCategory = venue.categories;
       let categoryName = venueCategory.map(category => category.name)[0];
 
       categoryName =
-        categoryName === "Food" ||
-        categoryName === "Museum" ||
-        categoryName === "PublicArt" ||
-        categoryName === "Bar" ||
-        categoryName === "Hotel" ||
-        categoryName === "Office" ||
-        categoryName === "Library" ||
+        categoryName === "Outdoor Sculpture" ||
+        categoryName === "Monument / Landmark" ||
+        categoryName === "Scenic Lookout" ||
+        categoryName === "Garden" ||
+        categoryName === "City Hall" ||
+        categoryName === "Historic Site" ||
+        categoryName === "Bridge" ||
         categoryName === "Cultural Center"
           ? "Others"
           : categoryName;
@@ -123,8 +121,6 @@ class PlacesList extends Component {
   };
 
   render() {
-    //const categories = ["Museum", "Church", "Bar", "Others"];
-
     const { listOpen } = this.props;
     const { filteredList } = this.state;
 
