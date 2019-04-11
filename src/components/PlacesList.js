@@ -1,20 +1,9 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
+
 import { getFSvenues, getFSdetails } from "../data/data.js";
 import { gatherContent, createInfowindow } from "../data/placeDetails.js";
 
 class PlacesList extends Component {
-  static propTypes = {
-    listOpen: PropTypes.bool.isRequired,
-    infoWindow: PropTypes.object.isRequired,
-    // infowindowOpen: PropTypes.bool.isRequired,
-    myMap: PropTypes.object.isRequired,
-    centerMap: PropTypes.object.isRequired,
-    toggleList: PropTypes.func.isRequired,
-    showFiltered: PropTypes.bool.isRequired,
-    checkListOpen: PropTypes.func.isRequired
-  };
-
   constructor(props) {
     super(props);
     this.state = {
